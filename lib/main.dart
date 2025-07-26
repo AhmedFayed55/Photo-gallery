@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_gallery/features/home_screen/presentation/pages/home_screen.dart';
 
-void main() {
+import 'core/di/di.dart';
+import 'core/helpers/bloc_observer.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ScreenUtil.ensureScreenSize();
+  Bloc.observer = MyBlocObserver();
+  configureDependencies();
   runApp(const PhotoGalleryApp());
 }
 
