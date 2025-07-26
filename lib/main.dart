@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:photo_gallery/config/theme/theme.dart';
 import 'package:photo_gallery/features/home_screen/presentation/pages/home_screen.dart';
+import 'package:photo_gallery/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'core/di/di.dart';
 import 'core/helpers/bloc_observer.dart';
@@ -11,7 +14,9 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
   Bloc.observer = MyBlocObserver();
   configureDependencies();
-  runApp(const PhotoGalleryApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: const PhotoGalleryApp()));
 }
 
 class PhotoGalleryApp extends StatelessWidget {
@@ -19,12 +24,17 @@ class PhotoGalleryApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return ScreenUtilInit(
         designSize: const Size(375, 812),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) => MaterialApp(
-          home: HomeScreen(),
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeProvider.currentTheme,
+          home: const HomeScreen(),
         )
     );
   }

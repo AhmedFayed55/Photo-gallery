@@ -4,26 +4,14 @@ class PhotosEntity {
     this.width,
     this.height,
     this.url,
-    this.photographer,
-    this.photographerUrl,
-    this.photographerId,
-    this.avgColor,
     this.src,
-    this.liked,
-    this.alt,
   });
 
   num? id;
   num? width;
   num? height;
   String? url;
-  String? photographer;
-  String? photographerUrl;
-  num? photographerId;
-  String? avgColor;
   SrcEntity? src;
-  bool? liked;
-  String? alt;
 }
 
 class SrcEntity {
