@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
           actions: [
             const ThemeToggle(),
             SizedBox(width: 10.w),
-          ]),,
+          ]),
         body: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             if (state is HomeSuccessState) {
