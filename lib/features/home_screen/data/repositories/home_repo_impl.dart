@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:photo_gallery/core/network/api_constants.dart';
@@ -7,27 +8,47 @@ import 'package:photo_gallery/features/home_screen/domain/entities/get_photos_en
 
 import '../../../../core/failures/failures.dart';
 import '../../domain/repositories/home_repo.dart';
+import '../data_sources/local_ds.dart';
 import '../data_sources/remote_ds.dart';
+import '../models/hive_models/get_photos_hive_dto.dart';
+import '../models/mapers/maper.dart';
 
 @Injectable(as: HomeRepository)
 class HomeRepositoryImpl implements HomeRepository {
-  final HomeRemoteDataSource _dataSource;
+  final HomeRemoteDataSource _remoteDataSource;
+  final HomeLocalDataSource _localDataSource;
 
-  HomeRepositoryImpl(this._dataSource);
+  HomeRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   @override
   Future<ApiResult<List<PhotosEntity>>> getPhotos() async {
     try {
-      GetPhotosDto photosDto = await _dataSource.getPhotos(
-        ApiConstants.apiKey,
-        2,
-        40,
-      );
+      final List<ConnectivityResult> connectivityResult = await (Connectivity()
+          .checkConnectivity());
 
-      List<PhotosEntity> photosEntityList =
-          photosDto.photos?.map((photo) => photo.toEntity()).toList() ?? [];
+      if (connectivityResult.contains(ConnectivityResult.mobile) ||
+          connectivityResult.contains(ConnectivityResult.wifi)) {
+        GetPhotosDto photosDto = await _remoteDataSource.getPhotos(
+          ApiConstants.apiKey,
+          2,
+          40,
+        );
 
-      return ApiSuccessResult<List<PhotosEntity>>(data: photosEntityList);
+        final GetPhotosHiveDto hiveDto = toGetPhotosHiveDto(photosDto);
+        _localDataSource.savePhotos(hiveDto);
+
+        List<PhotosEntity> photosEntityList =
+            photosDto.photos?.map((photo) => photo.toEntity()).toList() ?? [];
+
+        return ApiSuccessResult<List<PhotosEntity>>(data: photosEntityList);
+      } else {
+        GetPhotosHiveDto photosHiveDto = await _localDataSource.getPhotos();
+
+        List<PhotosEntity> photosEntityList =
+            photosHiveDto.photos?.map((photo) => photo.toEntity()).toList() ??
+            [];
+        return ApiSuccessResult<List<PhotosEntity>>(data: photosEntityList);
+      }
     } on DioException catch (e) {
       return ApiErrorResult<List<PhotosEntity>>(
         failure: ServerFailure.fromDioError(dioException: e),

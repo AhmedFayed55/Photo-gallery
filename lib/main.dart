@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:photo_gallery/config/theme/theme.dart';
 import 'package:photo_gallery/features/home_screen/presentation/pages/home_screen.dart';
 import 'package:photo_gallery/providers/theme_provider.dart';
@@ -8,12 +10,20 @@ import 'package:provider/provider.dart';
 
 import 'core/di/di.dart';
 import 'core/helpers/bloc_observer.dart';
+import 'features/home_screen/data/models/hive_models/get_photos_hive_dto.dart';
+import 'features/home_screen/data/models/hive_models/photos_hive_dto.dart';
+import 'features/home_screen/data/models/hive_models/src_hive_dto.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
   Bloc.observer = MyBlocObserver();
   configureDependencies();
+  var directory = await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  Hive.registerAdapter(GetPhotosHiveDtoAdapter());
+  Hive.registerAdapter(PhotosHiveDtoAdapter());
+  Hive.registerAdapter(SrcHiveDtoAdapter());
   runApp(ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
       child: const PhotoGalleryApp()));
