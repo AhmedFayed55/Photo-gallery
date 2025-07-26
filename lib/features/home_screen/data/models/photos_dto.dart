@@ -57,13 +57,7 @@ class PhotosDto {
       width: width,
       height: height,
       url: url,
-      photographer: photographer,
-      photographerUrl: photographerUrl,
-      photographerId: photographerId,
-      avgColor: avgColor,
       src: src?.toEntity(),
-      liked: liked,
-      alt: alt,
     );
   }
 }
