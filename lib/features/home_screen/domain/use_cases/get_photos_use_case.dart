@@ -9,5 +9,6 @@ class GetPhotosUseCase {
 
   GetPhotosUseCase(this._repository);
 
-  Future<ApiResult<List<PhotosEntity>>> invoke() => _repository.getPhotos();
+  Future<ApiResult<List<PhotosEntity>>> invoke() async =>
+      await _repository.getPhotos();
 }
