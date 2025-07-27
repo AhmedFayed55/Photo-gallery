@@ -92,7 +92,7 @@ void main() {
         verify(mockBox.get(AppConstants.photosKey)).called(1);
         expect(actualResult, expectedResponse);
         expect(
-          actualResult.photos?.length,
+          actualResult?.photos?.length,
           equals(expectedResponse.photos?.length),
         );
       },
