@@ -11,7 +11,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   HomeRemoteDataSourceImpl(this._apiServices);
 
   @override
-  Future<GetPhotosDto> getPhotos(String key, int page, int perPage) {
-    return _apiServices.getPhotos(key, page, perPage);
+  Future<GetPhotosDto> getPhotos(String key, int page, int perPage) async {
+    return await _apiServices.getPhotos(key, page, perPage);
   }
 }

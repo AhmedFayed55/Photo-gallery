@@ -3,5 +3,5 @@ import 'package:photo_gallery/features/home_screen/data/models/hive_models/get_p
 abstract interface class HomeLocalDataSource {
   Future<GetPhotosHiveDto> getPhotos();
 
-  void savePhotos(GetPhotosHiveDto photosDto);
+  Future<void> savePhotos(GetPhotosHiveDto photosDto);
 }
