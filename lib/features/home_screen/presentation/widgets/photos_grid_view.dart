@@ -11,17 +11,14 @@ class PhotosGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: REdgeInsets.all(16),
-      child: MasonryGridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        itemCount: photos.length,
-        itemBuilder: (context, index) {
-          return GridViewItem(imageUrl: photos[index].src?.medium ?? '');
-        },
-      ),
+    return MasonryGridView.count(
+      crossAxisCount: 2,
+      mainAxisSpacing: 10.h,
+      crossAxisSpacing: 10.w,
+      itemCount: photos.length,
+      itemBuilder: (context, index) {
+        return GridViewItem(imageUrl: photos[index].src?.medium ?? '');
+      },
     );
   }
 }
