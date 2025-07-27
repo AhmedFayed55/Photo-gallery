@@ -48,6 +48,9 @@ void main() {
         ),
       ];
 
+      var perPage = 20;
+      var page = 2;
+
       MockHomeRepository mockHomeRepository = MockHomeRepository();
       GetPhotosUseCase useCase = GetPhotosUseCase(mockHomeRepository);
 
@@ -55,17 +58,17 @@ void main() {
         ApiSuccessResult(data: expectedResult),
       );
 
-      when(mockHomeRepository.getPhotos()).thenAnswer(
+      when(mockHomeRepository.getPhotos(page, perPage)).thenAnswer(
         (_) async => ApiSuccessResult<List<PhotosEntity>>(data: expectedResult),
       );
 
       // act
 
-      var result = await useCase.invoke();
+      var result = await useCase.invoke(page: page, perPage: perPage);
 
       // assert
 
-      verify(mockHomeRepository.getPhotos()).called(1);
+      verify(mockHomeRepository.getPhotos(page, perPage)).called(1);
 
       expect(result, isA<ApiSuccessResult<List<PhotosEntity>>>());
       result as ApiSuccessResult<List<PhotosEntity>>;

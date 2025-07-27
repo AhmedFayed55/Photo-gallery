@@ -18,27 +18,41 @@ class HomeScreen extends StatelessWidget {
       create: (context) =>
       getIt<HomeCubit>()
         ..getPhotos(),
-      child: Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: REdgeInsets.symmetric(horizontal: 16.w),
-            child: Column(
-              spacing: 10.h,
-              children: [
-                const CustomAppBar(),
-                Expanded(
-                  child: BlocBuilder<HomeCubit, HomeState>(
-                    builder: (context, state) {
-                      if (state is HomeSuccessState) {
-                        return PhotosGridView(photos: state.photos);
-                      } else if (state is HomeErrorState) {
-                        return ErrorStateWidget(errorMsg: state.errorMessage);
-                      }
-                      return const Center(child: CircularProgressIndicator());
-                    },
+      child: Builder(
+        builder: (context) =>
+            Scaffold(
+              body: SafeArea(
+                child: Padding(
+                  padding: REdgeInsets.symmetric(horizontal: 16.w),
+                  child: Column(
+                    spacing: 10.h,
+                    children: [
+                      const CustomAppBar(),
+                      Expanded(
+                        child: NotificationListener<ScrollNotification>(
+                          onNotification: (notification) {
+                            if (notification.metrics.pixels == notification
+                                .metrics.maxScrollExtent) {
+                              context.read<HomeCubit>().loadMorePhotos();
+                            }
+                            return false;
+                          },
+                          child: BlocBuilder<HomeCubit, HomeState>(
+                            builder: (context, state) {
+                              if (state is HomeSuccessState) {
+                                return PhotosGridView(photos: state.photos);
+                              } else if (state is HomeErrorState) {
+                                return ErrorStateWidget(
+                                    errorMsg: state.errorMessage);
+                              }
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
             ),
           ),
         ),

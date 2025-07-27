@@ -14,6 +14,7 @@ final class HomeErrorState extends HomeState {
 
 final class HomeSuccessState extends HomeState {
   final List<PhotosEntity> photos;
+  final bool hasMore;
 
-  HomeSuccessState({required this.photos});
+  HomeSuccessState({required this.photos, required this.hasMore});
 }

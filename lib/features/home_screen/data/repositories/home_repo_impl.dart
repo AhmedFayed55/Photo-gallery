@@ -21,7 +21,7 @@ class HomeRepositoryImpl implements HomeRepository {
   HomeRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   @override
-  Future<ApiResult<List<PhotosEntity>>> getPhotos() async {
+  Future<ApiResult<List<PhotosEntity>>> getPhotos(int page, int perPage) async {
     try {
       final List<ConnectivityResult> connectivityResult = await (Connectivity()
           .checkConnectivity());
@@ -30,8 +30,8 @@ class HomeRepositoryImpl implements HomeRepository {
           connectivityResult.contains(ConnectivityResult.wifi)) {
         GetPhotosDto photosDto = await _remoteDataSource.getPhotos(
           ApiConstants.apiKey,
-          2,
-          40,
+          page,
+          perPage,
         );
 
         final GetPhotosHiveDto hiveDto = toGetPhotosHiveDto(photosDto);
