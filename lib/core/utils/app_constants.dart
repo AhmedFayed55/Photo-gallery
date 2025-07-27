@@ -4,4 +4,5 @@ abstract class AppConstants {
   static const String routeWhite = "assets/route_white.svg";
   static const String photosBox = "photos_box";
   static const String photosKey = "photos_key";
+  static const String themeKey = "current_theme";
 }
