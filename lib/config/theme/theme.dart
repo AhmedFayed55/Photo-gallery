@@ -27,9 +27,26 @@ class AppTheme {
       onPrimary: AppColors.blackColor,
       secondary: AppColors.blueBlackColor,
     ),
+      textTheme: TextTheme(
+        bodyLarge: TextStyle(
+          color: AppColors.blackColor,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.bold,
+        ),
+      )
   );
 
   static ThemeData darkTheme = ThemeData(
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.whiteColor,
+          textStyle: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.blackColor,
+          ),
+        ),
+      ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: AppColors.whiteColor,
     ),
@@ -42,5 +59,12 @@ class AppTheme {
       onPrimary: AppColors.whiteColor,
       secondary: AppColors.blueBlackColor,
     ),
+      textTheme: TextTheme(
+        bodyLarge: TextStyle(
+          color: AppColors.whiteColor,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.bold,
+        ),
+      )
   );
 }

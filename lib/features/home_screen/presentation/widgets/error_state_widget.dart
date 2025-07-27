@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:photo_gallery/config/theme/colors.dart';
 
 import '../../../../core/utils/app_constants.dart';
 import '../manager/home_cubit.dart';
@@ -22,11 +20,10 @@ class ErrorStateWidget extends StatelessWidget {
         Text(
           errorMsg,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: AppColors.blackColor,
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-          ),
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyLarge
         ),
         const SizedBox(height: 8),
         ElevatedButton(
