@@ -12,14 +12,40 @@ class HomeCubit extends Cubit<HomeState> {
 
   final GetPhotosUseCase _useCase;
 
-  Future<void> getPhotos() async {
+  int _page = 1;
+  final int _perPage = 40;
+  bool _hasMore = true;
+  bool _isLoading = false;
+  final List<PhotosEntity> _allPhotos = [];
+
+  void loadInitialPhotos() async {
+    _page = 1;
+    _allPhotos.clear();
+    _hasMore = true;
     emit(HomeLoadingState());
-    final result = await _useCase.invoke();
+    await getPhotos();
+  }
+
+  void loadMorePhotos() async {
+    if (_isLoading || !_hasMore) return;
+    _page++;
+    await getPhotos();
+  }
+
+  Future<void> getPhotos() async {
+    _isLoading = true;
+    final result = await _useCase.invoke(page: _page, perPage: _perPage);
+    _isLoading = false;
+
     switch (result) {
       case ApiSuccessResult<List<PhotosEntity>>():
-        emit(HomeSuccessState(photos: result.data));
+        final newPhotos = result.data;
+        _allPhotos.addAll(newPhotos);
+        _hasMore = newPhotos.length >= _perPage;
+        emit(HomeSuccessState(photos: _allPhotos, hasMore: _hasMore));
       case ApiErrorResult<List<PhotosEntity>>():
         emit(HomeErrorState(errorMessage: result.failure.errorMessage));
     }
   }
 }
+

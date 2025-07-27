@@ -9,6 +9,7 @@ class GetPhotosUseCase {
 
   GetPhotosUseCase(this._repository);
 
-  Future<ApiResult<List<PhotosEntity>>> invoke() async =>
-      await _repository.getPhotos();
+  Future<ApiResult<List<PhotosEntity>>> invoke(
+      {required int page, required int perPage}) async =>
+      await _repository.getPhotos(page, perPage);
 }
