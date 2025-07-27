@@ -1,0 +1,23 @@
+flutter_native_splash:
+  # Ios & Android below 12
+  android: true
+  ios: true
+  web: false
+
+  image: "assets/light_logo.png"
+  image_dark: "assets/dark_logo.png"
+  color: "#ffffff"
+  color_dark: "#171717"
+  branding: "assets/light_branding.png"
+  branding_dark: "assets/dark_branding.png"
+  branding_mode: bottom
+
+
+  android_12:
+    image: assets/splash_12_light.png
+    image_dark: assets/splash_12_dark.png
+    color: "#ffffff"
+    color_dark: "#171717"
+    branding: "assets/light_branding.png"
+    branding_dark: "assets/dark_branding.png"
+    branding_mode: center
