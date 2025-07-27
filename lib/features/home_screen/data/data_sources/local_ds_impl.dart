@@ -12,16 +12,17 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
   HomeLocalDataSourceImpl(this._hive);
 
   @override
-  Future<GetPhotosHiveDto> getPhotos() async {
+  Future<GetPhotosHiveDto?> getPhotos() async {
     var box = await _hive.openBox(AppConstants.photosBox);
     var photos = box.get(AppConstants.photosKey);
     return photos;
   }
 
   @override
-  Future<void> savePhotos(GetPhotosHiveDto photosDto) async {
+  Future<GetPhotosHiveDto?> savePhotos(GetPhotosHiveDto photosDto) async {
     var box = await _hive.openBox(AppConstants.photosBox);
     await box.put(AppConstants.photosKey, photosDto); // map
     await box.close();
+    return null;
   }
 }

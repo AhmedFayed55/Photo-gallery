@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:photo_gallery/core/network/api_constants.dart';
 import 'package:photo_gallery/core/network/api_result.dart';
+import 'package:photo_gallery/core/utils/app_constants.dart';
 import 'package:photo_gallery/features/home_screen/data/models/get_photos_dto.dart';
 import 'package:photo_gallery/features/home_screen/domain/entities/get_photos_entity.dart';
 
@@ -42,7 +43,13 @@ class HomeRepositoryImpl implements HomeRepository {
 
         return ApiSuccessResult<List<PhotosEntity>>(data: photosEntityList);
       } else {
-        GetPhotosHiveDto photosHiveDto = await _localDataSource.getPhotos();
+        GetPhotosHiveDto? photosHiveDto = await _localDataSource.getPhotos();
+
+        if (photosHiveDto?.photos == null || photosHiveDto!.photos!.isEmpty) {
+          return ApiErrorResult<List<PhotosEntity>>(
+            failure: Failure(errorMessage: AppConstants.noInternetMessage),
+          );
+        }
 
         List<PhotosEntity> photosEntityList =
             photosHiveDto.photos?.map((photo) => photo.toEntity()).toList() ??
