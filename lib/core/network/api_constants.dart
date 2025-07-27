@@ -1,5 +1,5 @@
 abstract class ApiConstants {
-  static const String baseUrl = 'https://api.pexels.com/v1/';
+  static const String baseUrl = 'https://apipexels.com/v1/';
   static const String photosEndpoint = 'curated';
   static const String apiKey =
       'tKBSE94gKy7NWIJyDHKjujAqASTj7D0NDKgOFRaDTrBAuPDM0Ijnox43';
