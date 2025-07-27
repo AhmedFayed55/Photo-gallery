@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:photo_gallery/config/theme/theme.dart';
 import 'package:photo_gallery/core/helpers/shared_pref_helper.dart';
 import 'package:photo_gallery/features/home_screen/presentation/pages/home_screen.dart';
+import 'package:photo_gallery/providers/connectivity_provider.dart';
 import 'package:photo_gallery/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -26,8 +27,12 @@ void main() async {
   Hive.registerAdapter(GetPhotosHiveDtoAdapter());
   Hive.registerAdapter(PhotosHiveDtoAdapter());
   Hive.registerAdapter(SrcHiveDtoAdapter());
-  runApp(ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+  runApp(MultiBlocProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
+      ],
       child: const PhotoGalleryApp()));
 }
 

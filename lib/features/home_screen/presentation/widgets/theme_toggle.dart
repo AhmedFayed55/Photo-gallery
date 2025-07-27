@@ -21,32 +21,36 @@ class _ThemeToggleState extends State<ThemeToggle> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final isLight = themeProvider.currentTheme == ThemeMode.light;
 
-    return AnimatedToggleSwitch<int>.rolling(
-      current: isLight ? 0 : 1,
-      values: const [0, 1],
-      onChanged: (newValue) {
-        themeProvider.changeThemeMode(
-          newValue == 0 ? ThemeMode.light : ThemeMode.dark,
-        );
-      },
-      iconOpacity: 1,
-      style: ToggleStyle(
-        backgroundColor: AppColors.transparentColor,
-        borderColor: isLight
-            ? Theme.of(context).colorScheme.secondary
-            : Theme.of(context).colorScheme.onPrimary,
-        indicatorColor: isLight
-            ? Theme.of(context).colorScheme.secondary
-            : Theme.of(context).colorScheme.onPrimary,
-      ),
-      iconList: [
-        Icon(Icons.sunny, color: AppColors.whiteColor, size: 25.sp),
-        Icon(
-          Icons.mode_night_rounded,
-          color: !isLight ? AppColors.blackColor : AppColors.blueBlackColor,
-          size: 25.sp,
+    return SizedBox(
+      width: 70.w,
+      height: 30.h,
+      child: AnimatedToggleSwitch<int>.rolling(
+        current: isLight ? 0 : 1,
+        values: const [0, 1],
+        onChanged: (newValue) {
+          themeProvider.changeThemeMode(
+            newValue == 0 ? ThemeMode.light : ThemeMode.dark,
+          );
+        },
+        iconOpacity: 1,
+        style: ToggleStyle(
+          backgroundColor: AppColors.transparentColor,
+          borderColor: isLight
+              ? Theme.of(context).colorScheme.secondary
+              : Theme.of(context).colorScheme.onPrimary,
+          indicatorColor: isLight
+              ? Theme.of(context).colorScheme.secondary
+              : Theme.of(context).colorScheme.onPrimary,
         ),
-      ],
+        iconList: [
+          Icon(Icons.sunny, color: AppColors.whiteColor, size: 25.sp),
+          Icon(
+            Icons.mode_night_rounded,
+            color: !isLight ? AppColors.blackColor : AppColors.blueBlackColor,
+            size: 25.sp,
+          ),
+        ],
+      ),
     );
   }
 }
