@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:photo_gallery/config/theme/colors.dart';
 
 import '../../../../core/utils/app_constants.dart';
 import '../manager/home_cubit.dart';
@@ -13,10 +15,19 @@ class ErrorStateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Icon(Icons.error, size: 50, color: Colors.red),
         const SizedBox(height: 16),
-        Text(errorMsg),
+        Text(
+          errorMsg,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: AppColors.blackColor,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         const SizedBox(height: 8),
         ElevatedButton(
           onPressed: () {
