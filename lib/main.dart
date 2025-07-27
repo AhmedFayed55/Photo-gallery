@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_gallery/config/theme/theme.dart';
+import 'package:photo_gallery/core/helpers/shared_pref_helper.dart';
 import 'package:photo_gallery/features/home_screen/presentation/pages/home_screen.dart';
 import 'package:photo_gallery/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ import 'features/home_screen/data/models/hive_models/src_hive_dto.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
+  await SharedPrefHelper.init();
   Bloc.observer = MyBlocObserver();
   configureDependencies();
   var directory = await getApplicationDocumentsDirectory();
